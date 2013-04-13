@@ -9,10 +9,9 @@ try:
 except IndexError:
   filename = './test.wav'
 fp = wave.open(filename)
-fp2 = wave.open('./'+filename+'-cutup.wav', 'w')
-fp2.setparams(fp.getparams())
 wavelength = fp.getnframes()
 left = wavelength - fp.tell()
+box = []
 while left > 0:
 	cliplength = min(random.randint(1,100000), left)
 	sample = fp.readframes(cliplength)
@@ -21,8 +20,15 @@ while left > 0:
 	print "cliplength: " + str(cliplength)
 	print "sample length: " + str(len(sample))
 	print "cutpoint = " + str(cutpoint)
-	sample = sample[cutpoint:] + sample[:cutpoint]
-	fp2.writeframesraw(sample)
+        box.append(sample[cutpoint:]) 
+        box.append(sample[:cutpoint])
 	left = wavelength - fp.tell()
+
+fp2 = wave.open('./'+filename+'.cutup.wav', 'w')
+fp2.setparams(fp.getparams())
 fp.close()
+
+random.shuffle(box)
+for sample in box:
+  fp2.writeframesraw(sample)
 fp2.close()
