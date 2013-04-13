@@ -1,7 +1,15 @@
+#!/usr/bin/env python
+
 import wave
 import random
-fp = wave.open('./test.wav')
-fp2 = wave.open('./test15.wav', 'w')
+import sys
+
+try:
+  filename = sys.argv[1] 
+except IndexError:
+  filename = './test.wav'
+fp = wave.open(filename)
+fp2 = wave.open('./'+filename+'-cutup.wav', 'w')
 fp2.setparams(fp.getparams())
 wavelength = fp.getnframes()
 left = wavelength - fp.tell()
