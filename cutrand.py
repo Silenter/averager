@@ -13,7 +13,7 @@ wavelength = fp.getnframes()
 left = wavelength - fp.tell()
 box = []
 while left > 0:
-	cliplength = min(random.randint(1,100000), left)
+	cliplength = min(random.randint(1,1000000), left)
 	sample = fp.readframes(cliplength)
 	cutpoint = len(sample)/2
 	cutpoint = cutpoint + cutpoint % 2
